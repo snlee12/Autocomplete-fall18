@@ -6,11 +6,11 @@ import java.util.*;
 public class BenchMarkForAutocomplete {
 	public static final String CHARSET = "UTF-8";
 	public static final Locale LOCALE = Locale.US;
-	
-	
+
+
 	Autocompletor myBinary;
 	Autocompletor myBrute;
-	
+
 	public void setUp(String filename) throws FileNotFoundException {
 		Scanner in = new Scanner(new File(filename), CHARSET);
 		in.useLocale(LOCALE);
@@ -26,23 +26,23 @@ public class BenchMarkForAutocomplete {
 		myBinary = new BinarySearchAutocomplete(terms,weights);
 		myBrute = new BruteAutocomplete(terms,weights);
 	}
-	
+
 	public void runAM() {
-		int matchSize = 20;
+		int matchSize = 10000;
 		String[] all = {"","a", "b", "c", "x", "y", "z", "aa", "az", "za", "zz"};
 		System.out.printf("search\tsize\t#match\tbinary\tbrute\n");
 		for(String s : all) {
 
 			List<Term> binaryResult = myBinary.topMatches(s, Integer.MAX_VALUE);
-			
+
 			int allSize = binaryResult.size();
 			binaryResult = myBinary.topMatches(s, matchSize);
-			
+
 			double start = System.nanoTime();
 			binaryResult = myBinary.topMatches(s, matchSize);
 			double end = System.nanoTime();
 			double binaryTime = (end-start)/1e9;
-			
+
 			List<Term> bruteresult = myBrute.topMatches(s, Integer.MAX_VALUE);
 			int allSize2 = bruteresult.size();
 			bruteresult = myBrute.topMatches(s, matchSize);
@@ -61,13 +61,13 @@ public class BenchMarkForAutocomplete {
 		}
 	}
 	public void doMark() throws FileNotFoundException {
-		String fname = "data/fourletterwords.txt"; 
+		String fname = "../data/fourletterwords.txt";
 		//fname = "data/words-333333.txt";
 		setUp(fname);
 		runAM();
 	}
 	public static void main(String[] args) throws FileNotFoundException {
-		
+
 		BenchMarkForAutocomplete bmfb = new BenchMarkForAutocomplete();
 		bmfb.doMark();
 	}

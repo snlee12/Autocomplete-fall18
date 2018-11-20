@@ -123,7 +123,7 @@ public class BinarySearchAutocomplete implements Autocompletor {
 		if (list.size() < k) {
 			return list;
 		}
-		List<Term> listy = new ArrayList<Term>();
+		List<Term> listy = new ArrayList<Term>(); // Creates a new list adding the top k
 		for (int i = 0; i < k; i += 1) {
 			listy.add(list.get(i));
 		}

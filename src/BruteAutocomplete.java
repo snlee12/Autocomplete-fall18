@@ -48,7 +48,7 @@ public class BruteAutocomplete implements Autocompletor {
 		if (k < 0) {
 			throw new IllegalArgumentException("Illegal value of k:"+k);
 		}
-		
+
 		// maintain pq of size k
 		PriorityQueue<Term> pq = new PriorityQueue<Term>(10, new Term.WeightOrder());
 		for (Term t : myTerms) {
@@ -56,7 +56,8 @@ public class BruteAutocomplete implements Autocompletor {
 				continue;
 			if (pq.size() < k) {
 				pq.add(t);
-			} else if (pq.peek().getWeight() < t.getWeight()) {
+			}
+			else if (pq.peek().getWeight() < t.getWeight()) {
 				pq.remove();
 				pq.add(t);
 			}
