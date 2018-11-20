@@ -113,13 +113,20 @@ public class BinarySearchAutocomplete implements Autocompletor {
 		int firstI = firstIndexOf(myTerms, prefixTerm, new Term.PrefixOrder(prefix.length()));
 		int lastI = lastIndexOf(myTerms, prefixTerm, new Term.PrefixOrder(prefix.length()));
 
-		Term[] listy = new Term[lastI - firstI + 1];
+		if (firstI < 0 && lastI < 0) return new ArrayList<Term>(); // Checks to make sure both are in range
+
+		ArrayList<Term> list = new ArrayList<>();
 		for (int i = firstI; i < lastI + 1; i += 1) {
-			listy[i - firstI] = myTerms[i];
+			list.add(myTerms[i]);
 		}
-		Arrays.sort(listy, new Term.ReverseWeightOrder());
-		listy = Arrays.copyOfRange(listy, 0, k);
-		ArrayList<Term> list = new ArrayList<Term>(Arrays.asList(listy));
-		return list;
+		list.sort(new Term.ReverseWeightOrder()); // If there are fewer than k matches
+		if (list.size() < k) {
+			return list;
+		}
+		List<Term> listy = new ArrayList<Term>();
+		for (int i = 0; i < k; i += 1) {
+			listy.add(list.get(i));
+		}
+		return listy;
 	}
 }
