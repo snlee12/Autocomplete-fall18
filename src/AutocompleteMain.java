@@ -4,7 +4,7 @@ import javax.swing.SwingUtilities;
 
 /**
  * Main class for the Autocomplete program.
- * 
+ *
  * @author Austin Lu
  *
  */
@@ -17,7 +17,7 @@ public class AutocompleteMain {
 	final static String BINARY_SEARCH_AUTOCOMPLETE = "BinarySearchAutocomplete";
 
 	/* Modify name of Autocompletor implementation as necessary */
-	
+
 	final static String AUTOCOMPLETOR_CLASS_NAME = BRUTE_AUTOCOMPLETE;
 	//final static String AUTOCOMPLETOR_CLASS_NAME = BINARY_SEARCH_AUTOCOMPLETE;
 

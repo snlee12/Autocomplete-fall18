@@ -1,10 +1,10 @@
 import java.util.*;
 
 /**
- * 
+ *
  * Using a sorted array of Term objects, this implementation uses binary search
  * to find the top term(s).
- * 
+ *
  * @author Austin Lu, adapted from Kevin Wayne
  * @author Jeff Forbes
  * @author Owen Astrachan in Fall 2018, revised API
@@ -16,10 +16,10 @@ public class BinarySearchAutocomplete implements Autocompletor {
 	/**
 	 * Given arrays of words and weights, initialize myTerms to a corresponding
 	 * array of Terms sorted lexicographically.
-	 * 
+	 *
 	 * This constructor is written for you, but you may make modifications to
 	 * it.
-	 * 
+	 *
 	 * @param terms
 	 *            - A list of words to form terms from
 	 * @param weights
@@ -34,13 +34,13 @@ public class BinarySearchAutocomplete implements Autocompletor {
 		if (terms == null || weights == null) {
 			throw new NullPointerException("One or more arguments null");
 		}
-		
+
 		myTerms = new Term[terms.length];
-		
+
 		for (int i = 0; i < terms.length; i++) {
 			myTerms[i] = new Term(terms[i], weights[i]);
 		}
-		
+
 		Arrays.sort(myTerms);
 	}
 
@@ -49,7 +49,7 @@ public class BinarySearchAutocomplete implements Autocompletor {
 	 * array which is considered equivalent by a comparator to the given key.
 	 * This method should not call comparator.compare() more than 1+log n times,
 	 * where n is the size of a.
-	 * 
+	 *
 	 * @param a
 	 *            - The array of Terms being searched
 	 * @param key
@@ -60,14 +60,14 @@ public class BinarySearchAutocomplete implements Autocompletor {
 	 * @return The first index i for which comparator considers a[i] and key as
 	 *         being equal. If no such index exists, return -1 instead.
 	 */
-	public static int firstIndexOf(Term[] a, Term key, Comparator<Term> comparator) {	
+	public static int firstIndexOf(Term[] a, Term key, Comparator<Term> comparator) {
 		int index = BinarySearchLibrary.firstIndex(Arrays.asList(a), key, comparator);
 		return index;
 	}
 
 	/**
 	 * The same as firstIndexOf, but instead finding the index of the last Term.
-	 * 
+	 *
 	 * @param a
 	 *            - The array of Terms being searched
 	 * @param key
@@ -91,7 +91,7 @@ public class BinarySearchAutocomplete implements Autocompletor {
 	 * those words. e.g. If terms is {air:3, bat:2, bell:4, boy:1}, then
 	 * topKMatches("b", 2) should return {"bell", "bat"}, but topKMatches("a",
 	 * 2) should return {"air"}
-	 * 
+	 *
 	 * @param prefix
 	 *            - A prefix which all returned words must start with
 	 * @param k
@@ -106,7 +106,19 @@ public class BinarySearchAutocomplete implements Autocompletor {
 	@Override
 	public List<Term> topMatches(String prefix, int k) {
 
-		ArrayList<Term> list = new ArrayList<>();
+		if (prefix == null) throw new NullPointerException("Invalid prefix " + prefix);
+
+		Term prefixTerm = new Term(prefix,1);
+		int firstI = firstIndexOf(myTerms, prefixTerm, new Term.PrefixOrder(prefix.length()));
+		int lastI = lastIndexOf(myTerms, prefixTerm, new Term.PrefixOrder(prefix.length()));
+
+		Term[] listy = new Term[lastI - firstI + 1];
+		for (int i = firstI; i < lastI + 1; i += 1) {
+			listy[i - firstI] = myTerms[i];
+		}
+		Arrays.sort(listy, new Term.ReverseWeightOrder());
+		listy = Arrays.copyOfRange(listy, 0, k);
+		ArrayList<Term> list = new ArrayList<Term>(Arrays.asList(listy));
 		return list;
 	}
 }
