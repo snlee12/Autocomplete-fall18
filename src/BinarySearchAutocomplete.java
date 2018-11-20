@@ -112,8 +112,8 @@ public class BinarySearchAutocomplete implements Autocompletor {
 		int firstI = firstIndexOf(myTerms, prefixTerm, new Term.PrefixOrder(prefix.length()));
 		int lastI = lastIndexOf(myTerms, prefixTerm, new Term.PrefixOrder(prefix.length()));
 
-		Term[] listy = new Term[lastI - firstI];
-		for (int i = firstI; i < lastI; i += 1) {
+		Term[] listy = new Term[lastI - firstI + 1];
+		for (int i = firstI; i < lastI + 1; i += 1) {
 			listy[i - firstI] = myTerms[i];
 		}
 		Arrays.sort(listy, new Term.ReverseWeightOrder());
