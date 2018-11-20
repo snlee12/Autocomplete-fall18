@@ -35,7 +35,7 @@ public class BinarySearchLibrary {
 		int low = -1;
 		int high = list.size()-1;
 		// (low,high] contains target
-
+		if (list.isEmpty()) return -1;
 		while (low + 1 != high) {
 			int mid = (low + high)/2;
 			if (comp.compare(list.get(mid),target) < 0) {
@@ -67,7 +67,7 @@ public class BinarySearchLibrary {
 
 		int low = 0;
 		int high = list.size();
-
+		if (list.isEmpty()) return -1;
 		// target in [low,high)
 		// TODO: complete method
 		while (low + 1 != high) {
