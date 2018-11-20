@@ -109,6 +109,7 @@ public class BinarySearchAutocomplete implements Autocompletor {
 		if (prefix == null) throw new NullPointerException("Invalid prefix " + prefix);
 
 		Term prefixTerm = new Term(prefix,1);
+
 		int firstI = firstIndexOf(myTerms, prefixTerm, new Term.PrefixOrder(prefix.length()));
 		int lastI = lastIndexOf(myTerms, prefixTerm, new Term.PrefixOrder(prefix.length()));
 
@@ -117,7 +118,11 @@ public class BinarySearchAutocomplete implements Autocompletor {
 			listy[i - firstI] = myTerms[i];
 		}
 		Arrays.sort(listy, new Term.ReverseWeightOrder());
-		listy = Arrays.copyOfRange(listy, 0, k);
+		//listy = Arrays.copyOfRange(listy, 0, k);
+		Term[] listz = new Term[k];
+		for (int i = 0; i < k; i += 1) {
+			listz[i] = listy[i];
+		}
 		ArrayList<Term> list = new ArrayList<Term>(Arrays.asList(listy));
 		return list;
 	}
