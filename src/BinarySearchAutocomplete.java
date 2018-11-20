@@ -118,11 +118,7 @@ public class BinarySearchAutocomplete implements Autocompletor {
 			listy[i - firstI] = myTerms[i];
 		}
 		Arrays.sort(listy, new Term.ReverseWeightOrder());
-		//listy = Arrays.copyOfRange(listy, 0, k);
-		Term[] listz = new Term[k];
-		for (int i = 0; i < k; i += 1) {
-			listz[i] = listy[i];
-		}
+		listy = Arrays.copyOfRange(listy, 0, k);
 		ArrayList<Term> list = new ArrayList<Term>(Arrays.asList(listy));
 		return list;
 	}
